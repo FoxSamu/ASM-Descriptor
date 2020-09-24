@@ -43,6 +43,16 @@ public class PrimitiveDescriptor extends TypeDescriptor {
     }
 
     @Override
+    public void accept(DescriptorVisitor visitor) {
+        visitor.visitPrimitive(this);
+    }
+
+    @Override
+    public PrimitiveDescriptor remap(Mapper mapper) {
+        return this;
+    }
+
+    @Override
     public String toString() {
         return prefix + "";
     }

@@ -17,6 +17,11 @@ public final class ReferenceDescriptor extends TypeDescriptor {
     }
 
     @Override
+    public void accept(DescriptorVisitor visitor) {
+        visitor.visitReference(this);
+    }
+
+    @Override
     public String toString() {
         return "L" + internalName + ";";
     }
@@ -56,6 +61,11 @@ public final class ReferenceDescriptor extends TypeDescriptor {
     @Override
     public int hashCode() {
         return internalName.hashCode();
+    }
+
+    @Override
+    public ReferenceDescriptor remap(Mapper mapper) {
+        return new ReferenceDescriptor(mapper.remap(internalName));
     }
 
     public static ReferenceDescriptor parse(String desc) {

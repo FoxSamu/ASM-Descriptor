@@ -48,9 +48,19 @@ public abstract class Descriptor {
         return (ArrayDescriptor) this;
     }
 
+    public PrimitiveDescriptor asPrimitive() {
+        return (PrimitiveDescriptor) this;
+    }
+
     public abstract String toString();
     public abstract Type toAsm();
     public abstract String toCode();
+
+    public abstract Descriptor remap(Mapper mapper);
+
+    public void accept(DescriptorVisitor visitor) {
+        visitor.visit(this);
+    }
 
     public static Descriptor parse(String desc) {
         Validate.notNull(desc, "desc");

@@ -58,6 +58,22 @@ public final class MethodDescriptor extends Descriptor {
     }
 
     @Override
+    public void accept(DescriptorVisitor visitor) {
+        visitor.visitMethod(this);
+    }
+
+    @Override
+    public MethodDescriptor remap(Mapper mapper) {
+        int i = 0;
+        TypeDescriptor[] outpars = new TypeDescriptor[parameters.length];
+        for (TypeDescriptor td : parameters) {
+            outpars[i] = td.remap(mapper);
+            i++;
+        }
+        return new MethodDescriptor(returnType.remap(mapper), outpars);
+    }
+
+    @Override
     public String toString() {
         return String.format(
             "(%s)%s",

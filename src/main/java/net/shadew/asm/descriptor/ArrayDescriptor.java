@@ -8,13 +8,6 @@ public final class ArrayDescriptor extends TypeDescriptor {
     private final TypeDescriptor element;
 
     ArrayDescriptor(TypeDescriptor element) {
-        TypeDescriptor root = element;
-        int dimensions = 1;
-        while (root.isArray()) {
-            dimensions++;
-            root = root.asArray().root();
-        }
-
         this.element = element;
     }
 
@@ -62,6 +55,16 @@ public final class ArrayDescriptor extends TypeDescriptor {
     public int dimensions() {
         if (element.isArray()) return 1 + element.asArray().dimensions();
         return 1;
+    }
+
+    @Override
+    public void accept(DescriptorVisitor visitor) {
+        visitor.visitArray(this);
+    }
+
+    @Override
+    public ArrayDescriptor remap(Mapper mapper) {
+        return new ArrayDescriptor(element.remap(mapper));
     }
 
     @Override

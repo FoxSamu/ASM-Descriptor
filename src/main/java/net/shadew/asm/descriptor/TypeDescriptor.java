@@ -15,6 +15,14 @@ public abstract class TypeDescriptor extends Descriptor {
 
     public abstract char prefix();
 
+    @Override
+    public void accept(DescriptorVisitor visitor) {
+        visitor.visitType(this);
+    }
+
+    @Override
+    public abstract TypeDescriptor remap(Mapper mapper);
+
     public static TypeDescriptor parse(String desc) {
         Validate.notNull(desc, "desc");
         return DescriptorParser.type(desc);
