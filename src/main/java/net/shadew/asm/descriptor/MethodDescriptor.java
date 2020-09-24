@@ -102,6 +102,16 @@ public final class MethodDescriptor extends Descriptor {
     }
 
     @Override
+    public String toCode(String memberName) {
+        return String.format(
+            "%s %s(%s)",
+            returnType.toCode(),
+            memberName,
+            parameters().map(Descriptor::toCode).collect(Collectors.joining(", "))
+        );
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

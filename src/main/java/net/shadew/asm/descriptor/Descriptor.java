@@ -55,6 +55,7 @@ public abstract class Descriptor {
     public abstract String toString();
     public abstract Type toAsm();
     public abstract String toCode();
+    public abstract String toCode(String memberName);
 
     public abstract Descriptor remap(Mapper mapper);
 

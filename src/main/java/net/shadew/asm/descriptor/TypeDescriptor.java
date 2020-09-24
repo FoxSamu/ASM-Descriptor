@@ -23,6 +23,11 @@ public abstract class TypeDescriptor extends Descriptor {
     @Override
     public abstract TypeDescriptor remap(Mapper mapper);
 
+    @Override
+    public String toCode(String memberName) {
+        return toCode() + " " + memberName;
+    }
+
     public static TypeDescriptor parse(String desc) {
         Validate.notNull(desc, "desc");
         return DescriptorParser.type(desc);

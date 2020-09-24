@@ -107,4 +107,60 @@ public final class InternalNameUtil {
         Validate.isFalse(cls.isPrimitive(), "'cls' is primitive");
         return cls.getName().replace('.', '/');
     }
+
+    public static boolean inPackage(String name, String pkg) {
+        Validate.notNull(name, "name");
+        Validate.notNull(pkg, "pkg");
+        if (pkg.isEmpty()) return true;
+        int splitAt = pkg.length();
+        if (splitAt >= name.length()) return false;
+        String left = name.substring(0, splitAt);
+        String right = name.substring(splitAt);
+        return right.charAt(0) == '/' && left.equals(pkg);
+    }
+
+    public static String renamePackage(String name, String from, String to) {
+        Validate.notNull(name, "name");
+        Validate.notNull(from, "from");
+        Validate.notNull(to, "to");
+        if (from.equals(to)) return name;
+        if (from.isEmpty()) return to + "/" + name;
+        int splitAt = from.length();
+        if (splitAt >= name.length()) return name;
+        String left = name.substring(0, splitAt);
+        String right = name.substring(splitAt);
+        if (right.charAt(0) == '/' && left.equals(from)) {
+            return to + right;
+        }
+        return name;
+    }
+
+    public static boolean inClass(String name, String cls) {
+        Validate.notNull(name, "name");
+        Validate.notNull(cls, "cls");
+        int splitAt = cls.length();
+        if (splitAt >= name.length()) return false;
+        String left = name.substring(0, splitAt);
+        String right = name.substring(splitAt);
+        return right.charAt(0) == '$' && right.indexOf('/') == -1 && left.equals(cls);
+    }
+
+    public static String renameClass(String name, String from, String to) {
+        Validate.notNull(name, "name");
+        Validate.notNull(from, "from");
+        Validate.notNull(to, "to");
+        if (from.equals(to)) return name;
+        int splitAt = from.length();
+        if (splitAt >= name.length()) {
+            if (from.equals(name))
+                return to;
+            return name;
+        }
+        String left = name.substring(0, splitAt);
+        String right = name.substring(splitAt);
+        if (right.charAt(0) == '$' && right.indexOf('/') == -1 && left.equals(from)) {
+            return to + right;
+        }
+        return name;
+    }
 }
