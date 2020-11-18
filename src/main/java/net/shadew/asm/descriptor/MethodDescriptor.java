@@ -18,6 +18,11 @@ public final class MethodDescriptor extends Descriptor {
         this.returnType = returnType;
     }
 
+    @Override
+    public boolean isMethod() {
+        return true;
+    }
+
     public TypeDescriptor parameter(int index) {
         return parameters[index];
     }
